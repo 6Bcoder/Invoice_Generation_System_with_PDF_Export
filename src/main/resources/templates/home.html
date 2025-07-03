@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping Mall Invoice System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            text-align: center;
+            padding-top: 100px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 32px;
+        }
+
+        .btn {
+            display: inline-block;
+            margin: 20px;
+            padding: 15px 30px;
+            font-size: 18px;
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<h1>Shopping Mall Invoice Generation System</h1>
+
+<p class="info" th:text="'Logged in as: ' + ${#authentication.name}"></p>
+
+<a href="/customers/list" class="btn">Customer Management</a>
+<a href="/invoices/list" class="btn">Invoice Management</a>
+<form th:action="@{/logout}" method="post" style="display: inline;">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <button class="btn" type="submit">Logout</button>
+</form>
+
+</body>
+</html>

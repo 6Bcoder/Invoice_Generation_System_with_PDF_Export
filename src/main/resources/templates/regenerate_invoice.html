@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Select Customer to Regenerate Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px;
+            background-color: #f9f9f9;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        select, button {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 20px;
+            width: 250px;
+        }
+        button {
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1f618d;
+        }
+        .top-button {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Regenerate Invoice by Customer</h2>
+
+<div class="top-button">
+    <a href="/"><button>Home</button></a>
+</div>
+
+<form th:action="@{/invoices/regenerate-by-customer/list}" method="get">
+    <label for="customerSelect">Select Customer : </label><br/>
+    <select name="customerId" id="customerSelect" required>
+        <option value="" disabled selected>Select a customer</option>
+        <option th:each="customer : ${customers}"
+                th:value="${customer.id}"
+                th:text="${customer.name}"></option>
+    </select>
+    <br/>
+    <button type="submit">Show Invoices</button>
+</form>
+
+</body>
+</html>
+
+

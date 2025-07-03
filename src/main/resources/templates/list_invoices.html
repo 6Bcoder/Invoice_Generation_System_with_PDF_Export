@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Invoice List</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        h2 { color: #2c3e50; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .button-group { margin-top: 20px; }
+        .button-group a button {
+            padding: 10px 15px;
+            margin-right: 10px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .button-group a button:hover {
+            background-color: #1e8449;
+        }
+        .no-data {
+            margin-top: 20px;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Invoice List</h2>
+
+<!-- Navigation buttons -->
+<div class="button-group">
+    <a href="/invoices/new"><button>Add New Invoice</button></a>
+    <a href="/customers/list"><button>Customer Management</button></a>
+    <a href="/"><button>Home</button></a>
+    <a href="/invoices/regenerate-by-customer"><button>Regenerate Any Invoice</button></a>
+</div>
+
+<!-- Success or error message -->
+<p th:if="${message}" th:text="${message}" style="color: green;"></p>
+<p th:if="${error}" th:text="${error}" style="color: red;"></p>
+
+<!-- Invoices table -->
+<table th:if="${invoices != null and !invoices.isEmpty()}">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Customer Name</th>
+        <th>Total Amount</th>
+        <th>PDF</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="invoice : ${invoices}">
+        <td th:text="${invoice.id}"></td>
+        <td th:text="${invoice.date}"></td>
+        <td th:text="${invoice.customer.name}"></td>
+        <td th:text="${invoice.totalAmount}"></td>
+        <td>
+            <a th:href="@{'/invoices/view/' + ${invoice.id}}">View</a> |
+            <a th:href="@{'/invoices/download/' + ${invoice.id}}">Download</a> |
+            <a th:href="@{'/invoices/regenerate/' + ${invoice.id}}">Regenerate</a>
+
+        </td>
+        <td>
+            <form th:action="@{'/invoices/email/' + ${invoice.id}}" method="post" style="display:inline;">
+                <input type="email" name="to" placeholder="Email" required />
+                <button type="submit">Send</button>
+            </form>
+            |
+            <a th:href="@{'/invoices/delete/' + ${invoice.id}}"
+               onclick="return confirm('Are you sure you want to delete this invoice?');">
+                Delete
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- No invoices found -->
+<p th:if="${invoices == null or invoices.isEmpty()}" class="no-data">
+    No invoices found. Click "Add New Invoice" above to create one.
+</p>
+
+</body>
+</html>
+

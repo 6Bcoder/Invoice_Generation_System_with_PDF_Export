@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Invoices for Customer</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        padding: 30px;
+        background-color: #f2f2f2;
+    }
+    h2 {
+        color: #2c3e50;
+        text-align: center;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 25px;
+    }
+    th, td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: left;
+    }
+    th {
+        background-color: #e0e0e0;
+    }
+    input[type="email"] {
+        padding: 6px;
+        width: 180px;
+    }
+    button {
+        padding: 6px 10px;
+        background-color: #27ae60;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #1e8449;
+    }
+    .nav-buttons {
+        margin-top: 20px;
+        text-align: center;
+    }
+    .nav-buttons a button {
+        margin: 0 10px;
+        background-color: #3498db;
+    }
+    .nav-buttons a button:hover {
+        background-color: #2e86c1;
+    }
+    .no-invoices {
+        text-align: center;
+        color: #888;
+        margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Invoices for Selected Customer</h2>
+
+<div class="nav-buttons">
+  <a href="/"><button>Home</button></a>
+  <a href="/invoices/regenerate-by-customer"><button>Back</button></a>
+</div>
+
+<table th:if="${invoices != null and !invoices.isEmpty()}">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Date</th>
+    <th>Total</th>
+    <th>PDF Actions</th>
+    <th>Email & Delete</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="invoice : ${invoices}">
+    <td th:text="${invoice.id}"></td>
+    <td th:text="${invoice.date}"></td>
+    <td th:text="${invoice.totalAmount}"></td>
+    <td>
+      <a th:href="@{'/invoices/view/' + ${invoice.id}}">View</a> |
+      <a th:href="@{'/invoices/download/' + ${invoice.id}}">Download</a>
+    </td>
+    <td>
+      <form th:action="@{'/invoices/email/' + ${invoice.id}}" method="post" style="display:inline;">
+        <input type="email" name="to" placeholder="Email" required />
+        <button type="submit">Send</button>
+      </form>
+      |
+      <a th:href="@{'/invoices/delete/' + ${invoice.id}}"
+         onclick="return confirm('Are you sure you want to delete this invoice?');">
+        Delete
+      </a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<p th:if="${invoices == null or invoices.isEmpty()}" class="no-invoices">
+  No invoices found for this customer.
+</p>
+
+</body>
+</html>
+

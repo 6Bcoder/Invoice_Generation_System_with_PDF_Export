@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add / Edit Customer</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; }
+        h2 { color: #333; }
+        form { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px #ccc; max-width: 500px; margin: auto; }
+        label { display: block; margin-top: 10px; }
+        input[type="text"], input[type="email"] {
+            width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;
+        }
+        button { margin-top: 20px; padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #218838; }
+    </style>
+</head>
+<body>
+<h2 th:text="${customer.id == null} ? 'Add Customer' : 'Edit Customer'"></h2>
+
+<form th:action="${customer.id == null} ? @{/customers/save} : @{/customers/update/{id}(id=${customer.id})}" th:object="${customer}" method="post">
+    <label>Name:</label>
+    <input type="text" th:field="*{name}" required />
+
+    <label>Email:</label>
+    <input type="email" th:field="*{email}" required />
+
+    <label>Phone Number:</label>
+    <input type="text" th:field="*{phoneNumber}" required />
+
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>
