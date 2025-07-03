@@ -23,7 +23,7 @@ public class User {
 
     @NotBlank(message = "Password is required")
     @Pattern(
-            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
+            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}$",
             message = "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character"
     )
     @Column(nullable = false)
