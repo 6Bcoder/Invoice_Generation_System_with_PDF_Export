@@ -62,9 +62,7 @@
         <td th:text="${invoice.totalAmount}"></td>
         <td>
             <a th:href="@{'/invoices/view/' + ${invoice.id}}">View</a> |
-            <a th:href="@{'/invoices/download/' + ${invoice.id}}">Download</a> |
-            <a th:href="@{'/invoices/regenerate/' + ${invoice.id}}">Regenerate</a>
-
+            <a th:href="@{'/invoices/download/' + ${invoice.id}}">Download</a>
         </td>
         <td>
             <form th:action="@{'/invoices/email/' + ${invoice.id}}" method="post" style="display:inline;">
